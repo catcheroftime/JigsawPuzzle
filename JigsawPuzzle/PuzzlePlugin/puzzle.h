@@ -2,8 +2,9 @@
 #define PUZZLE_H
 
 #include <QWidget>
+#include <QtUiPlugin/QDesignerExportWidget>
 
-class Puzzle : public QWidget
+class QDESIGNER_WIDGET_EXPORT Puzzle : public QWidget
 {
     Q_OBJECT
 

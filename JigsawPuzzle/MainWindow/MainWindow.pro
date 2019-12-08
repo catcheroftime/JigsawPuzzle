@@ -5,7 +5,7 @@
 #-------------------------------------------------
 
 QT       += core gui
-QT       +=designer
+QT       += designer
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -27,12 +27,10 @@ DEFINES += QT_DEPRECATED_WARNINGS
 Debug:DESTDIR = $$PWD/../bin/debug
 Release:DESTDIR = $$PWD/../bin/release
 
-#INCLUDEPATH += \
-#    $$PWD/../WaterwaveProgressPlugin
+INCLUDEPATH += \
+    $$PWD/../puzzleplugin
 
-LIBS += -L$$DESTDIR
-
-#LIBS += -lWaterwaveProgressPlugin
+LIBS += -L$$DESTDIR  -lpuzzleplugin
 
 SOURCES += main.cpp\
         mainwindow.cpp
