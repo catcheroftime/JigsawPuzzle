@@ -11,7 +11,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = JigsawPuzzle
 TEMPLATE = app
-
+RC_FILE = logo.rc
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked as deprecated (the exact warnings
 # depend on your compiler). Please consult the documentation of the
@@ -27,10 +27,12 @@ DEFINES += QT_DEPRECATED_WARNINGS
 Debug:DESTDIR = $$PWD/../bin/debug
 Release:DESTDIR = $$PWD/../bin/release
 
+
 INCLUDEPATH += \
     $$PWD/../puzzleplugin
 
 LIBS += -L$$DESTDIR  -lpuzzleplugin
+
 
 SOURCES += main.cpp\
         mainwindow.cpp
@@ -38,3 +40,13 @@ SOURCES += main.cpp\
 HEADERS  += mainwindow.h
 
 FORMS    += mainwindow.ui
+
+RESOURCES += images.qrc
+
+DISTFILES += \
+    $$PWD/appicon.ico \
+    $$PWD/logo.rc
+
+
+
+
