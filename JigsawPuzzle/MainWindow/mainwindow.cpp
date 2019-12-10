@@ -17,3 +17,8 @@ void MainWindow::initView()
 {
 
 }
+
+void MainWindow::on_actionOpen_triggered()
+{
+    ui->puzzle->loadImage("../../MainWindow/resource/example.jpg");
+}
