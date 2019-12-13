@@ -20,3 +20,5 @@ target.path = $$[QT_INSTALL_PLUGINS]/designer
 INSTALLS    += target
 
 include(puzzle.pri)
+
+

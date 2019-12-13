@@ -1,6 +1,7 @@
 #include "puzzle.h"
 #include "pieceslist.h"
 #include "puzzlewidget.h"
+#include "cutimage.h"
 
 #include <QtWidgets>
 #include <stdlib.h>
@@ -20,8 +21,13 @@ void Puzzle::loadImage(const QString &fileName)
                              QMessageBox::Close);
         return;
     }
-    puzzleImage = newImage;
-    setupPuzzle();
+
+    CutImage cutdialog;
+    if (cutdialog.exec() == QDialog::Accepted) {
+        puzzleImage = newImage;
+        setupPuzzle();
+    }
+
 }
 
 void Puzzle::setCompleted()
