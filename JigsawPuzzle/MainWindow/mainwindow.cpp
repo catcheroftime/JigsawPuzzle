@@ -22,7 +22,7 @@ void MainWindow::initView()
 
 void MainWindow::on_actionOpen_triggered()
 {
-    QString file = QFileDialog::getOpenFileName(this, tr("打开文件"));
+    QString file = QFileDialog::getOpenFileName(this, tr("打开文件"), "E:/PrivateProject/JigsawPuzzle/JigsawPuzzle/MainWindow/resource");
     if (file.isEmpty())
         return;
 
