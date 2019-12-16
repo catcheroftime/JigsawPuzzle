@@ -12,11 +12,15 @@ class CutImage : public QDialog
     Q_OBJECT
 
 public:
-    explicit CutImage(QWidget *parent = 0);
+    explicit CutImage(const QString &filepath, QWidget *parent = 0);
     ~CutImage();
 
 private:
+    void initView();
+
+private:
     Ui::CutImage *ui;
+    QString m_filepath;
 };
 
 #endif // CUTIMAGE_H

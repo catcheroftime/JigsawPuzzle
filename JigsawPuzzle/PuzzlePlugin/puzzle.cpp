@@ -22,7 +22,7 @@ void Puzzle::loadImage(const QString &fileName)
         return;
     }
 
-    CutImage cutdialog;
+    CutImage cutdialog{fileName};
     if (cutdialog.exec() == QDialog::Accepted) {
         puzzleImage = newImage;
         setupPuzzle();

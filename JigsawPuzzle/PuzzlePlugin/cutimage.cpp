@@ -1,16 +1,33 @@
 #include "cutimage.h"
 #include "ui_cutimage.h"
 
-CutImage::CutImage(QWidget *parent) :
+#include <QPixmap>
+
+CutImage::CutImage(const QString &filepath, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::CutImage)
+  , m_filepath(filepath)
 {
     ui->setupUi(this);
 
-    this->setWindowFlags(Qt::WindowCloseButtonHint | Qt::CustomizeWindowHint);
+    initView();
+
+
+    QImage* img=new QImage;
+
+    img->load(filepath);
+    ui->lb_showimage->setPixmap(QPixmap::fromImage(*img));
 }
 
 CutImage::~CutImage()
 {
     delete ui;
+}
+
+void CutImage::initView()
+{
+    this->setWindowTitle(tr("自定义游戏"));
+    this->setWindowFlags(Qt::WindowCloseButtonHint | Qt::CustomizeWindowHint);
+
+    ui->rb_square->setChecked(true);
 }
