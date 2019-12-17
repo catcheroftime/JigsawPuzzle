@@ -9,7 +9,6 @@
 
 ImageShowLabel::ImageShowLabel(QWidget *parent) :
     QLabel(parent)
-  , m_shape(CropBoxShape::Square)
   , m_pCropBox(new CropBox(this))
   , m_widthCount(3)
   , m_heightCount(3)
@@ -41,9 +40,9 @@ void ImageShowLabel::setCropBoxLine(const int& widthcount, const int& heightcoun
 
 }
 
-void ImageShowLabel::setCropBoxShape(ImageShowLabel::CropBoxShape shape)
+void ImageShowLabel::setCropBoxShape(CropBox::CropBoxShape shape)
 {
-    m_shape = shape;
+    m_pCropBox->setCropBoxShape(shape);
 }
 
 void ImageShowLabel::paintEvent(QPaintEvent *event)

@@ -11,6 +11,7 @@
 
 CropBox::CropBox(QWidget *parent)
     : QWidget(parent)
+    , m_shape(CropBoxShape::Square)
     , m_widthCount(4)
     , m_heightCount(4)
     , m_bMovingFlag(false)
@@ -29,6 +30,11 @@ void CropBox::setCropBoxLine(const int &widthcount, const int &heightcount)
 {
     m_widthCount = widthcount;
     m_heightCount = heightcount;
+}
+
+void CropBox::setCropBoxShape(CropBox::CropBoxShape shape)
+{
+    m_shape = shape;
 }
 
 void CropBox::showEvent(QShowEvent *event)

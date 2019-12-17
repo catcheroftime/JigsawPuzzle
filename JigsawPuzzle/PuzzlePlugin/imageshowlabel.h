@@ -2,26 +2,20 @@
 #define IMAGESHOWLABEL_H
 
 #include <QLabel>
+#include "cropbox.h"
 
 class QPixmap;
-class CropBox;
 
 class ImageShowLabel : public QLabel
 {
 public:
     ImageShowLabel(QWidget *parent = 0);
 
-    enum CropBoxShape {
-        Square = 0,
-        Rectangle,
-        Round
-    };
-
     void setImage(const QString & filename);
 //    QPixmap getCroppedImage();
 
     void setCropBoxLine(const int & widthcount,const int& heightcount);
-    void setCropBoxShape(CropBoxShape shape = CropBoxShape::Square);
+    void setCropBoxShape(CropBox::CropBoxShape shape  = CropBox::Square);
 
 protected:
     void paintEvent(QPaintEvent *event);
@@ -29,9 +23,6 @@ protected:
 
 private:
 
-
-private:
-    CropBoxShape m_shape;
     CropBox * m_pCropBox;
     int m_widthCount;
     int m_heightCount;

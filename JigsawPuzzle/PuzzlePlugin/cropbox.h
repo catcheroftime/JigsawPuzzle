@@ -9,13 +9,20 @@ class CropBox : public QWidget
 
     enum Direction { UP=0, DOWN, LEFT, RIGHT, LEFTTOP, LEFTBOTTOM, RIGHTBOTTOM, RIGHTTOP, NONE };
     enum {PADDING = 5, PADINGADD = 10*PADDING};
-    enum {SPEED = 300};
 
 public:
     CropBox(QWidget *parent = 0);
     ~CropBox();
 
+    enum CropBoxShape {
+        Square = 0,
+        Rectangle,
+        Round
+    };
+
      void setCropBoxLine(const int & widthcount,const int& heightcount);
+
+     void setCropBoxShape(CropBoxShape shape = CropBoxShape::Rectangle);
 
 protected:
     void showEvent(QShowEvent *event);
@@ -35,6 +42,7 @@ private:
     void resizeWindow(QPoint global_point, QPoint local_point);
 
 private:
+    CropBoxShape m_shape;
     int m_widthCount;
     int m_heightCount;
 
