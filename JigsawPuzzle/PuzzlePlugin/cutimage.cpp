@@ -12,12 +12,6 @@ CutImage::CutImage(const QString &filepath, QWidget *parent) :
 
     initView();
 
-
-//    QImage* img=new QImage;
-
-//    img->load(filepath);
-//    ui->lb_showimage->setPixmap(QPixmap::fromImage(*img));
-
     ui->lb_showimage->setImage(filepath);
 }
 

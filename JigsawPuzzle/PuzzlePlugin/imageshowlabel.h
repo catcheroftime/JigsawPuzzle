@@ -18,7 +18,7 @@ public:
     };
 
     void setImage(const QString & filename);
-    QPixmap getCroppedImage();
+//    QPixmap getCroppedImage();
 
     void setCropBoxLine(const int & widthcount,const int& heightcount);
     void setCropBoxShape(CropBoxShape shape = CropBoxShape::Square);
