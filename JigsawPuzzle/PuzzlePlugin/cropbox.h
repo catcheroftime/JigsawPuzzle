@@ -1,17 +1,33 @@
 #ifndef CROPBOX_H
 #define CROPBOX_H
 
-#include <QWidget>
+#include "mainwidget.h"
 
-class CropBox : public QWidget
+class CropBox : public MainWidget
 {
     Q_OBJECT
 public:
-    explicit CropBox(QWidget *parent = 0);
+    CropBox(QWidget *parent = 0);
+    ~CropBox();
+
+     void setCropBoxLine(const int & widthcount,const int& heightcount);
+
+protected:
+    void showEvent(QShowEvent * e);
+    void paintEvent(QPaintEvent * e);
 
 signals:
 
-public slots:
+private:
+    void drawBackground(QPainter &painter);
+    void drawInternalLines(QPainter &painter);
+    void drawBorder(QPainter &painter);
+    void drawPoints(QPainter &painter);
+
+
+private:
+    int m_widthCount;
+    int m_heightCount;
 };
 
 #endif // CROPBOX_H

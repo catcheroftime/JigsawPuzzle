@@ -4,6 +4,7 @@
 #include <QLabel>
 
 class QPixmap;
+class CropBox;
 
 class ImageShowLabel : public QLabel
 {
@@ -23,16 +24,15 @@ public:
     void setCropBoxShape(CropBoxShape shape = CropBoxShape::Square);
 
 protected:
-    void mousePressEvent(QMouseEvent *ev);
-    void mouseReleaseEvent(QMouseEvent *ev);
-    void mouseMoveEvent(QMouseEvent *ev);
+    void paintEvent(QPaintEvent *event);
+    void showEvent(QShowEvent *event);
 
 private:
 
 
 private:
     CropBoxShape m_shape;
-    QWidget *m_pCropBox;
+    CropBox * m_pCropBox;
     int m_widthCount;
     int m_heightCount;
 };
