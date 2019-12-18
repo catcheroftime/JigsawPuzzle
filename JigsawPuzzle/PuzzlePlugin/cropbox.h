@@ -20,9 +20,11 @@ public:
         Round
     };
 
-     void setCropBoxLine(const int & widthcount,const int& heightcount);
+    void fixCropBox(bool fixsized);
+    void drawCropBoxInternalLines(bool drawable);
+    void setCropBoxLine(const int & widthcount,const int& heightcount);
 
-     void setCropBoxShape(CropBoxShape shape = CropBoxShape::Rectangle);
+    void setCropBoxShape(CropBoxShape shape = CropBoxShape::Rectangle);
 
 protected:
     void showEvent(QShowEvent *event);
@@ -44,6 +46,8 @@ private:
 
 private:
     CropBoxShape m_shape;
+    bool m_bFixSized;
+    bool m_bDrawInternalLines;
     int m_widthCount;
     int m_heightCount;
 
