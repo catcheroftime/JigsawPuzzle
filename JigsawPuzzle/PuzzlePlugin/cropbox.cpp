@@ -72,9 +72,13 @@ void CropBox::mouseMoveEvent(QMouseEvent *event)
     QPoint global_point = event->globalPos();
 
     if (!m_bMovingFlag)
-        setDirection(point);//改变鼠标形状
-    else
-        resizeWindow(global_point, point);//鼠标点击之后，（关于移动）
+        setDirection(point);
+    else {
+        if (m_shape == Rectangle)
+            resizeRectangle(global_point, point);
+        else if (m_shape == Square)
+            resizeSquare(global_point, point);
+    }
 
     event->accept();
 }
@@ -189,7 +193,7 @@ void CropBox::setDirection(QPoint point)
     }
 }
 
-void CropBox::resizeWindow(QPoint global_point, QPoint local_point)
+void CropBox::resizeRectangle(QPoint global_point, QPoint local_point)
 {
     QRect rectMove = this->geometry();
 
@@ -296,6 +300,131 @@ void CropBox::resizeWindow(QPoint global_point, QPoint local_point)
                 return;
 
             rectMove.setBottom(parent_point.y());
+            break;
+        }
+        default:
+            break;
+
+        }
+    }
+    if (m_curDirec != NONE)
+        this->setGeometry(rectMove);
+}
+
+void CropBox::resizeSquare(QPoint global_point, QPoint local_point)
+{
+    QRect rectMove = this->geometry();
+
+    QPoint parent_point = mapToParent(local_point);
+
+    if (m_bMovingFlag)
+    {
+        QWidget* parent_widget = (QWidget *)this->parent();
+        switch(m_curDirec)
+        {
+        case NONE: {
+            QPoint end_point = global_point - m_dragPosition ;
+            if (parent_widget) {
+                if (end_point.x() <= 0 || end_point.x() >= parent_widget->width()-this->width() ||
+                        end_point.y() <= 0 || end_point.y() >= parent_widget->height()-this->height() )
+                    return;
+            }
+            move( end_point );
+            break;
+        }
+        case LEFTTOP: {
+            if (parent_widget) {
+                if (parent_point.x() < 0 || parent_point.y() < 0)
+                    return;
+            }
+            if ( rectMove.right() - parent_point.x()  < PADINGADD || rectMove.bottom() - parent_point.y() < PADINGADD)
+                return;
+
+            rectMove.setLeft(parent_point.x() );
+            rectMove.setTop(parent_point.x()- rectMove.right() + rectMove.bottom());
+            break;
+        }
+
+        case RIGHTBOTTOM: {
+            if (parent_widget) {
+                if ( parent_point.x() > parent_widget->width() || parent_point.y() > parent_widget->height())
+                    return;
+            }
+            if ( parent_point.x()  - rectMove.left() < PADINGADD || parent_point.y() - rectMove.top() < PADINGADD)
+                return;
+
+            rectMove.setRight( parent_point.x());
+            rectMove.setBottom(parent_point.x()- rectMove.left() + rectMove.top());
+            break;
+        }
+        case LEFTBOTTOM:
+            if (parent_widget) {
+                if (parent_point.x() < 0 || parent_point.y() > parent_widget->height())
+                    return;
+            }
+            if ( rectMove.right() - parent_point.x() < PADINGADD || parent_point.y() - rectMove.top() < PADINGADD)
+                return;
+
+            rectMove.setLeft(parent_point.x() );
+            rectMove.setBottom(rectMove.top() - parent_point.x() + rectMove.right() );
+            break;
+        case RIGHTTOP:
+            if (parent_widget) {
+                if (parent_point.y() < 0 || parent_point.x() > parent_widget->width())
+                    return;
+            }
+            if ( parent_point.x()- rectMove.left() < PADINGADD || rectMove.bottom() - parent_point.y() < PADINGADD)
+                return;
+            rectMove.setRight(parent_point.x() );
+            rectMove.setTop(rectMove.bottom() - parent_point.x() + rectMove.left());
+            break;
+        case LEFT: {
+            if (parent_widget) {
+                if ( parent_point.x() < PADINGADD )
+                    return;
+            }
+
+            if ( rectMove.right() - parent_point.x() < PADINGADD )
+                return;
+
+            rectMove.setLeft(parent_point.x() );
+            rectMove.setTop(parent_point.x()- rectMove.right() + rectMove.bottom());
+            break;
+        }
+        case UP:
+            if (parent_widget) {
+                if (parent_point.y() < 0)
+                    return;
+            }
+            if ( rectMove.bottom() - parent_point.y() < PADINGADD)
+                return;
+
+            rectMove.setTop(parent_point.y() );
+            rectMove.setRight( rectMove.left() - parent_point.y() + rectMove.bottom());
+            break;
+        case RIGHT: {
+            if (parent_widget) {
+                if ( parent_point.x() > parent_widget->width())
+                    return;
+            }
+            if ( parent_point.x() - rectMove.left() < PADINGADD)
+                return;
+
+            rectMove.setRight( parent_point.x());
+            rectMove.setBottom(parent_point.x()- rectMove.left() + rectMove.top());
+            break;
+        }
+        case DOWN: {
+            if (parent_widget) {
+                if ( parent_point.y() > parent_widget->height())
+                    return;
+            }
+            if ( parent_point.y() - rectMove.top() < PADINGADD)
+                return;
+
+            rectMove.setBottom( parent_point.y());
+
+            rectMove.setLeft(rectMove.top() - parent_point.y() + rectMove.right() );
             break;
         }
         default:

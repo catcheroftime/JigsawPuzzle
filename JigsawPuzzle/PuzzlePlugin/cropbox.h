@@ -39,7 +39,8 @@ private:
     void drawPoints(QPainter &painter);
 
     void setDirection(QPoint point);
-    void resizeWindow(QPoint global_point, QPoint local_point);
+    void resizeRectangle(QPoint global_point, QPoint local_point);
+    void resizeSquare(QPoint global_point, QPoint local_point);
 
 private:
     CropBoxShape m_shape;
