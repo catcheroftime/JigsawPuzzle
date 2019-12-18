@@ -22,7 +22,6 @@ ImageShowLabel::ImageShowLabel(QWidget *parent) :
 void ImageShowLabel::setImage(const QPixmap &image)
 {
     this->setPixmap(image);
-    qDebug() <<"Image Size:("<< image.width()<< "," << image.height()<< ")";
 }
 
 //QPixmap ImageShowLabel::getCroppedImage()
@@ -62,5 +61,4 @@ void ImageShowLabel::paintEvent(QPaintEvent *event)
 void ImageShowLabel::showEvent(QShowEvent *event)
 {
     Q_UNUSED(event);
-    qDebug() <<"Label Size:("<< this->width()<< "," << this->height()<< ")";
 }

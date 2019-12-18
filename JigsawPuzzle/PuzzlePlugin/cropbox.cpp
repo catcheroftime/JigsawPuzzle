@@ -52,7 +52,6 @@ void CropBox::setCropBoxShape(CropBox::CropBoxShape shape)
 void CropBox::showEvent(QShowEvent *event)
 {
     Q_UNUSED(event);
-    qDebug() << "CropBox size:" << this->width() << "," << this->height() << ")";
 }
 
 void CropBox::paintEvent(QPaintEvent *event)
