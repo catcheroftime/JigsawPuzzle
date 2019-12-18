@@ -2,6 +2,7 @@
 #define CUTIMAGE_H
 
 #include <QDialog>
+#include <QPixmap>
 
 namespace Ui {
 class CutImage;
@@ -12,7 +13,7 @@ class CutImage : public QDialog
     Q_OBJECT
 
 public:
-    explicit CutImage(const QString &filepath, QWidget *parent = 0);
+    explicit CutImage(const QString &filename, QWidget *parent = 0);
     ~CutImage();
 
 private:
@@ -20,7 +21,7 @@ private:
 
 private:
     Ui::CutImage *ui;
-    QString m_filepath;
+    QPixmap m_orignalImage;
 };
 
 #endif // CUTIMAGE_H

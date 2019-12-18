@@ -12,7 +12,7 @@
 CropBox::CropBox(QWidget *parent)
     : QWidget(parent)
     , m_shape(CropBoxShape::Square)
-    , m_bFixSized(true)
+    , m_bFixSized(false)
     , m_bDrawInternalLines(true)
     , m_widthCount(4)
     , m_heightCount(4)
@@ -68,6 +68,7 @@ void CropBox::paintEvent(QPaintEvent *event)
 
     drawBorder(painter);
     drawPoints(painter);
+    drawSizeText(painter);
 }
 
 void CropBox::mousePressEvent(QMouseEvent *event)
@@ -155,6 +156,17 @@ void CropBox::drawPoints(QPainter &painter)
     painter.drawPoint(this->width()/2, this->height()-SPACING);
 }
 
+void CropBox::drawSizeText(QPainter &painter)
+{
+    painter.setPen( QPen{QColor{255,0,0}});
+    QString showText = QString("(") + QString::number(this->width()) + "," + QString::number(this->height()) + ")";
+    QPointF topleft{(qreal)this->width()-(qreal)MINSIZE, (qreal)this->height()-(qreal)20};
+    QSizeF size{MINSIZE,20};
+    QRectF position {topleft, size};
+    QTextOption option{Qt::AlignVCenter | Qt::AlignRight };
+    painter.drawText(position, showText, option);
+}
+
 void CropBox::setDirection(QPoint point)
 {
     if (m_bFixSized) {
@@ -239,7 +251,7 @@ void CropBox::resizeRectangle(QPoint global_point, QPoint local_point)
                 if (parent_point.x() < 0 || parent_point.y() < 0)
                     return;
             }
-            if ( rectMove.right() - parent_point.x()  < PADINGADD || rectMove.bottom() - parent_point.y() < PADINGADD)
+            if ( rectMove.right() - parent_point.x()  < MINSIZE || rectMove.bottom() - parent_point.y() < MINSIZE)
                 return;
 
             rectMove.setLeft(parent_point.x() );
@@ -250,7 +262,7 @@ void CropBox::resizeRectangle(QPoint global_point, QPoint local_point)
                 if ( parent_point.x() > parent_widget->width() || parent_point.y() > parent_widget->height())
                     return;
             }
-            if ( parent_point.x()  - rectMove.left() < PADINGADD || parent_point.y() - rectMove.top() < PADINGADD)
+            if ( parent_point.x()  - rectMove.left() < MINSIZE || parent_point.y() - rectMove.top() < MINSIZE)
                 return;
 
             rectMove.setRight(parent_point.x() );
@@ -262,7 +274,7 @@ void CropBox::resizeRectangle(QPoint global_point, QPoint local_point)
                 if (parent_point.x() < 0 || parent_point.y() > parent_widget->height())
                     return;
             }
-            if ( rectMove.right() - parent_point.x() < PADINGADD || parent_point.y() - rectMove.top() < PADINGADD)
+            if ( rectMove.right() - parent_point.x() < MINSIZE || parent_point.y() - rectMove.top() < MINSIZE)
                 return;
 
             rectMove.setLeft(parent_point.x() );
@@ -273,18 +285,18 @@ void CropBox::resizeRectangle(QPoint global_point, QPoint local_point)
                 if (parent_point.y() < 0 || parent_point.x() > parent_widget->width())
                     return;
             }
-            if ( parent_point.x()- rectMove.left() < PADINGADD || rectMove.bottom() - parent_point.y() < PADINGADD)
+            if ( parent_point.x()- rectMove.left() < MINSIZE || rectMove.bottom() - parent_point.y() < MINSIZE)
                 return;
             rectMove.setRight(parent_point.x() );
             rectMove.setTop(parent_point.y());
             break;
         case LEFT: {
             if (parent_widget) {
-                if ( parent_point.x() < PADINGADD )
+                if ( parent_point.x() < MINSIZE )
                     return;
             }
 
-            if ( rectMove.right() - parent_point.x() < PADINGADD )
+            if ( rectMove.right() - parent_point.x() < MINSIZE )
                 return;
 
             rectMove.setLeft(parent_point.x()  );
@@ -295,7 +307,7 @@ void CropBox::resizeRectangle(QPoint global_point, QPoint local_point)
                 if (parent_point.y() < 0)
                     return;
             }
-            if ( rectMove.bottom() - parent_point.y() < PADINGADD)
+            if ( rectMove.bottom() - parent_point.y() < MINSIZE)
                 return;
 
             rectMove.setTop(parent_point.y());
@@ -305,7 +317,7 @@ void CropBox::resizeRectangle(QPoint global_point, QPoint local_point)
                 if ( parent_point.x() > parent_widget->width())
                     return;
             }
-            if ( parent_point.x() - rectMove.left() < PADINGADD)
+            if ( parent_point.x() - rectMove.left() < MINSIZE)
                 return;
 
             rectMove.setRight(parent_point.x() );
@@ -316,7 +328,7 @@ void CropBox::resizeRectangle(QPoint global_point, QPoint local_point)
                 if ( parent_point.y() > parent_widget->height())
                     return;
             }
-            if ( parent_point.y() - rectMove.top() < PADINGADD)
+            if ( parent_point.y() - rectMove.top() < MINSIZE)
                 return;
 
             rectMove.setBottom(parent_point.y());
@@ -357,7 +369,7 @@ void CropBox::resizeSquare(QPoint global_point, QPoint local_point)
                 if (parent_point.x() < 0 || parent_point.y() < 0 || parent_point.x()- rectMove.right() + rectMove.bottom() < 0)
                     return;
             }
-            if ( rectMove.right() - parent_point.x()  < PADINGADD || rectMove.bottom() - parent_point.y() < PADINGADD)
+            if ( rectMove.right() - parent_point.x()  < MINSIZE || rectMove.bottom() - parent_point.y() < MINSIZE)
                 return;
 
             rectMove.setLeft(parent_point.x() );
@@ -370,7 +382,7 @@ void CropBox::resizeSquare(QPoint global_point, QPoint local_point)
                 if ( parent_point.x() > parent_widget->width() || parent_point.y() > parent_widget->height())
                     return;
             }
-            if ( parent_point.x()  - rectMove.left() < PADINGADD || parent_point.y() - rectMove.top() < PADINGADD)
+            if ( parent_point.x()  - rectMove.left() < MINSIZE || parent_point.y() - rectMove.top() < MINSIZE)
                 return;
 
             rectMove.setRight( parent_point.x());
@@ -382,7 +394,7 @@ void CropBox::resizeSquare(QPoint global_point, QPoint local_point)
                 if (parent_point.x() < 0 || parent_point.y() > parent_widget->height() ||rectMove.top() - parent_point.x() + rectMove.right() > parent_widget->height() )
                     return;
             }
-            if ( rectMove.right() - parent_point.x() < PADINGADD || parent_point.y() - rectMove.top() < PADINGADD)
+            if ( rectMove.right() - parent_point.x() < MINSIZE || parent_point.y() - rectMove.top() < MINSIZE)
                 return;
 
             rectMove.setLeft(parent_point.x() );
@@ -393,7 +405,7 @@ void CropBox::resizeSquare(QPoint global_point, QPoint local_point)
                 if (parent_point.y() < 0 || parent_point.x() > parent_widget->width() || rectMove.bottom() - parent_point.x() + rectMove.left() < 0)
                     return;
             }
-            if ( parent_point.x()- rectMove.left() < PADINGADD || rectMove.bottom() - parent_point.y() < PADINGADD)
+            if ( parent_point.x()- rectMove.left() < MINSIZE || rectMove.bottom() - parent_point.y() < MINSIZE)
                 return;
 
             rectMove.setRight(parent_point.x() );
@@ -405,7 +417,7 @@ void CropBox::resizeSquare(QPoint global_point, QPoint local_point)
                     return;
             }
 
-            if ( rectMove.right() - parent_point.x() < PADINGADD )
+            if ( rectMove.right() - parent_point.x() < MINSIZE )
                 return;
 
             rectMove.setLeft(parent_point.x() );
@@ -417,7 +429,7 @@ void CropBox::resizeSquare(QPoint global_point, QPoint local_point)
                 if (parent_point.y() < 0 || rectMove.left() - parent_point.y() + rectMove.bottom() > parent_widget->width() )
                     return;
             }
-            if ( rectMove.bottom() - parent_point.y() < PADINGADD)
+            if ( rectMove.bottom() - parent_point.y() < MINSIZE)
                 return;
 
             rectMove.setTop(parent_point.y() );
@@ -428,7 +440,7 @@ void CropBox::resizeSquare(QPoint global_point, QPoint local_point)
                 if ( parent_point.x() > parent_widget->width() || parent_point.x()- rectMove.left() + rectMove.top() > parent_widget->height())
                     return;
             }
-            if ( parent_point.x() - rectMove.left() < PADINGADD)
+            if ( parent_point.x() - rectMove.left() < MINSIZE)
                 return;
 
             rectMove.setRight( parent_point.x());
@@ -440,7 +452,7 @@ void CropBox::resizeSquare(QPoint global_point, QPoint local_point)
                 if ( parent_point.y() > parent_widget->height() || rectMove.top() - parent_point.y() + rectMove.right()< 0 )
                     return;
             }
-            if ( parent_point.y() - rectMove.top() < PADINGADD)
+            if ( parent_point.y() - rectMove.top() < MINSIZE)
                 return;
 
             rectMove.setBottom( parent_point.y());

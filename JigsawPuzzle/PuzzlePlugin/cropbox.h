@@ -8,7 +8,7 @@ class CropBox : public QWidget
     Q_OBJECT
 
     enum Direction { UP=0, DOWN, LEFT, RIGHT, LEFTTOP, LEFTBOTTOM, RIGHTBOTTOM, RIGHTTOP, NONE };
-    enum {PADDING = 5, PADINGADD = 10*PADDING};
+    enum {PADDING = 5, MINSIZE = 80};
 
 public:
     CropBox(QWidget *parent = 0);
@@ -39,6 +39,7 @@ private:
     void drawInternalLines(QPainter &painter);
     void drawBorder(QPainter &painter);
     void drawPoints(QPainter &painter);
+    void drawSizeText(QPainter &painter);
 
     void setDirection(QPoint point);
     void resizeRectangle(QPoint global_point, QPoint local_point);

@@ -11,7 +11,7 @@ class ImageShowLabel : public QLabel
 public:
     ImageShowLabel(QWidget *parent = 0);
 
-    void setImage(const QString & filename);
+    void setImage(const QPixmap &image);
 //    QPixmap getCroppedImage();
 
     void setCropBoxLine(const int & widthcount,const int& heightcount);
@@ -22,7 +22,6 @@ protected:
     void showEvent(QShowEvent *event);
 
 private:
-
     CropBox * m_pCropBox;
     int m_widthCount;
     int m_heightCount;

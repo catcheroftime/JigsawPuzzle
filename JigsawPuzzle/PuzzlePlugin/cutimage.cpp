@@ -3,16 +3,20 @@
 
 #include <QPixmap>
 
-CutImage::CutImage(const QString &filepath, QWidget *parent) :
+CutImage::CutImage(const QString &filename, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::CutImage)
-  , m_filepath(filepath)
+  , m_orignalImage(filename)
 {
     ui->setupUi(this);
 
     initView();
 
-    ui->lb_showimage->setImage(filepath);
+    int height = m_orignalImage.height();
+    int width = m_orignalImage.width();
+    this->resize(width + 100, height +150);
+
+    ui->lb_showimage->setImage(m_orignalImage);
 }
 
 CutImage::~CutImage()

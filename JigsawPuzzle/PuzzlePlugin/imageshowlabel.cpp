@@ -19,14 +19,10 @@ ImageShowLabel::ImageShowLabel(QWidget *parent) :
     m_pCropBox->show();
 }
 
-void ImageShowLabel::setImage(const QString &filename)
+void ImageShowLabel::setImage(const QPixmap &image)
 {
-    QImage* img = new QImage;
-
-    img->load(filename);
-    this->setPixmap(QPixmap::fromImage(*img));
-
-    qDebug() <<"Image Size:("<< img->width()<< "," << img->height()<< ")";
+    this->setPixmap(image);
+    qDebug() <<"Image Size:("<< image.width()<< "," << image.height()<< ")";
 }
 
 //QPixmap ImageShowLabel::getCroppedImage()
